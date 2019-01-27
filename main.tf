@@ -11,6 +11,8 @@ resource "aws_s3_bucket" "remote_state" {
     prevent_destroy = true
   }
 
+  depends_on = ["aws_dynamodb_table.state-lock"]
+
   tags {
     Name = "${var.prefix}-remote-state-${var.environment}"
     ENV  = "${var.environment}"
