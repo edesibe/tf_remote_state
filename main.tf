@@ -14,6 +14,7 @@ resource "aws_s3_bucket" "remote_state" {
   }
 }
 
+/*
 resource "aws_dynamodb_table" "state-lock" {
   name           = "${var.prefix}-state-lock-${var.environment}"
   hash_key       = "LockID"
@@ -30,3 +31,4 @@ resource "aws_dynamodb_table" "state-lock" {
     ENV  = "${var.environment}"
   }
 }
+*/
