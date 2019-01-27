@@ -4,8 +4,8 @@ variable "region" {
 }
 
 variable "prefix" {
-  default     = "mttnowcom"
-  description = "The name of our org, i.e. mttnowcom"
+  default     = "examplecom"
+  description = "The name of our org, i.e. examplecom"
 }
 
 variable "environment" {
