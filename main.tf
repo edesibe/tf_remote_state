@@ -3,6 +3,8 @@ resource "aws_s3_bucket" "remote_state" {
   acl    = "private"
   region = "${var.region}"
 
+  force_destroy = "${var.force_destroy}"
+
   versioning {
     enabled = true
   }

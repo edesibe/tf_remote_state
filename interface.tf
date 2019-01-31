@@ -12,3 +12,9 @@ variable "environment" {
   default     = "development"
   description = "The name of our environment, i.e. development"
 }
+
+variable "force_destroy" {
+  default = false
+  description = "Set true if you wanna destroy s3 bucket and its objects"
+}
+
