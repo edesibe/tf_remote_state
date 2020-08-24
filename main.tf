@@ -10,7 +10,7 @@ resource "aws_s3_bucket" "remote_state" {
   }
 
 
-  tags {
+  tags = {
     Name = "${var.prefix}-remote-state-${var.region}-${var.environment}"
     ENV  = "${var.environment}"
   }
