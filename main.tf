@@ -28,7 +28,7 @@ resource "aws_dynamodb_table" "state-lock" {
     type = "S"
   }
 
-  tags {
+  tags = {
     Name = "${var.prefix}-state-lock-${var.region}-${var.environment}"
     ENV  = var.environment
   }
