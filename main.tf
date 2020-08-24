@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "remote_state" {
   bucket = "${var.prefix}-remote-state-${var.region}-${var.environment}"
   acl    = "private"
-  region = var.region
+  //region = var.region
 
   force_destroy = var.force_destroy
 
