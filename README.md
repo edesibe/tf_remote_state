@@ -8,9 +8,10 @@ module "remote_state" {
   region      = "eu-central-1"
   prefix      = "edesibecom"
   environment = "dev"
+  force_removal = "false"
 }
 ```
-See `interface.tf` for additional configurable variables.
+See `variables.tf` for additional configurable variables.
 
 ## License
 MIT
