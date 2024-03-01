@@ -1,4 +1,4 @@
-resource "aws_kms_key" "state_key" {
+resource "aws_kms_key" "this" {
   description = "Infrastructure State Encryption"
 
   policy = <<POLICY
@@ -31,7 +31,7 @@ POLICY
   }
 }
 
-resource "aws_kms_alias" "state_key_alias" {
+resource "aws_kms_alias" "this" {
   name          = "alias/${var.prefix}-${var.region}-${var.environment}-key"
-  target_key_id = aws_kms_key.state_key.key_id
+  target_key_id = aws_kms_key.this.key_id
 }
