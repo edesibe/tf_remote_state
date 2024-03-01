@@ -1,4 +1,4 @@
-resource "aws_dynamodb_table" "state-file-locking-table" {
+resource "aws_dynamodb_table" "this" {
   name           = "${var.prefix}-state-lock-${var.region}-${var.environment}"
   hash_key       = "LockID"
   read_capacity  = 1

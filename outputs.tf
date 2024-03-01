@@ -1,3 +1,3 @@
 output "s3_bucket_id" {
-  value = "${aws_s3_bucket.state-file-bucket.id}"
+  value = "${aws_s3_bucket.this.id}"
 }

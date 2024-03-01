@@ -1,5 +1,5 @@
-resource "aws_s3_bucket_policy" "state-file-s3-policy" {
-  bucket = aws_s3_bucket.state-file-bucket.id
+resource "aws_s3_bucket_policy" "this" {
+  bucket = aws_s3_bucket.this.id
   policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -8,11 +8,11 @@ resource "aws_s3_bucket_policy" "state-file-s3-policy" {
             "Effect": "Deny",
             "Principal": "*",
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${aws_s3_bucket.state-file-bucket.id}/*",
+            "Resource": "arn:aws:s3:::${aws_s3_bucket.this.id}/*",
             "Condition": {
                 "StringNotEqualsIfExists": {
                     "s3:x-amz-server-side-encryption": "SSE-KMS",
-                    "s3:x-amz-server-side-encryption-aws-kms-key-id": "${aws_kms_key.state_key.arn}"
+                    "s3:x-amz-server-side-encryption-aws-kms-key-id": "${aws_kms_key.this.arn}"
                 }
             }
         }
@@ -21,17 +21,17 @@ resource "aws_s3_bucket_policy" "state-file-s3-policy" {
 POLICY
 }
 
-resource "aws_s3_bucket_public_access_block" "tfstate_bucket_blocker" {
-  bucket = aws_s3_bucket.state-file-bucket.id
+resource "aws_s3_bucket_public_access_block" "this" {
+  bucket = aws_s3_bucket.this.id
 
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-  depends_on              = [aws_s3_bucket_object.tfstate_bucket_folder]
+  depends_on              = [aws_s3_bucket_object.this]
 }
 
-resource "aws_s3_bucket" "state-file-bucket" {
+resource "aws_s3_bucket" "this" {
   bucket = "${var.prefix}-remote-state-${var.region}-${var.environment}"
   acl    = "private"
 
@@ -45,7 +45,7 @@ resource "aws_s3_bucket" "state-file-bucket" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.state_key.arn
+        kms_master_key_id = aws_kms_key.this.arn
         sse_algorithm     = "aws:kms"
       }
     }
@@ -62,9 +62,9 @@ resource "aws_s3_bucket" "state-file-bucket" {
   }
 }
 
-resource "aws_s3_bucket_object" "tfstate_bucket_folder" {
-  bucket     = aws_s3_bucket.state-file-bucket.id
+resource "aws_s3_bucket_object" "this" {
+  bucket     = aws_s3_bucket.this.id
   key        = "tfstate-aws/"
-  kms_key_id = aws_kms_key.state_key.arn
-  depends_on = [aws_s3_bucket.state-file-bucket]
+  kms_key_id = aws_kms_key.this.arn
+  depends_on = [aws_s3_bucket.this]
 }
