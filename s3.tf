@@ -38,9 +38,22 @@ resource "aws_s3_bucket_versioning" "this" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "this" {
+  bucket = aws_s3_bucket.this.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "this" {
+  depends_on = [aws_s3_bucket_ownership_controls.this]
+
+  bucket = aws_s3_bucket.this.id
+  acl    = "private"
+}
+
 resource "aws_s3_bucket" "this" {
   bucket = "${var.prefix}-remote-state-${var.region}-${var.environment}"
-  acl    = "private"
 
   // change this to true to remove non-empty s3 bucket
   force_destroy = var.force_removal
