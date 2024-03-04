@@ -31,13 +31,16 @@ resource "aws_s3_bucket_public_access_block" "this" {
   depends_on              = [aws_s3_bucket_object.this]
 }
 
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.this.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket" "this" {
   bucket = "${var.prefix}-remote-state-${var.region}-${var.environment}"
   acl    = "private"
-
-  versioning {
-    enabled = true
-  }
 
   // change this to true to remove non-empty s3 bucket
   force_destroy = var.force_removal
@@ -62,7 +65,7 @@ resource "aws_s3_bucket" "this" {
   }
 }
 
-resource "aws_s3_bucket_object" "this" {
+resource "aws_s3_object" "this" {
   bucket     = aws_s3_bucket.this.id
   key        = "tfstate-aws/"
   kms_key_id = aws_kms_key.this.arn
