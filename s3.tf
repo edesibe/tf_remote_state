@@ -58,15 +58,6 @@ resource "aws_s3_bucket" "this" {
   // change this to true to remove non-empty s3 bucket
   force_destroy = var.force_removal
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.this.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
-
   // We explicitly prevent destruction using terraform. Remove this only if you really know what you're doing.
   lifecycle {
     prevent_destroy = true
@@ -75,6 +66,17 @@ resource "aws_s3_bucket" "this" {
   tags = {
     Name = "${var.prefix}-remote-state-${var.region}-${var.environment}"
     Env  = var.environment
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.this.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
