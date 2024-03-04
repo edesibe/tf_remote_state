@@ -21,9 +21,9 @@ POLICY
 
 
   // We explicitly prevent destruction using terraform. Remove this only if you really know what you're doing.
-  lifecycle {
-    prevent_destroy = true
-  }
+  #lifecycle {
+  #  prevent_destroy = true
+  #}
 
   tags = {
     Name = "${var.prefix}-state-lock-${var.region}-${var.environment}"
