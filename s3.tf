@@ -28,7 +28,7 @@ resource "aws_s3_bucket_public_access_block" "this" {
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-  depends_on              = [aws_s3_bucket_object.this]
+  depends_on              = [aws_s3_object.this]
 }
 
 resource "aws_s3_bucket_versioning" "this" {
