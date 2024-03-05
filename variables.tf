@@ -21,3 +21,14 @@ variable "force_removal" {
   description = "Forcing removal of a non-empty S3 bucket"
   type        = string
 }
+
+variable "additional_roles" {
+  default = []
+  description = "Additional roles that should be granted access to the tfstate"
+  type = list
+}
+
+variable "role" {
+  type = string
+  description = "AWS IAM role which will be allowd in s3 bucket policy"
+}

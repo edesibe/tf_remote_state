@@ -1,5 +1,6 @@
 resource "aws_s3_bucket_policy" "this" {
   bucket = aws_s3_bucket.this.id
+  depends_on = [aws_s3_bucket.this]
   policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -12,9 +13,25 @@ resource "aws_s3_bucket_policy" "this" {
             "Condition": {
                 "StringNotEqualsIfExists": {
                     "s3:x-amz-server-side-encryption": "SSE-KMS",
-                    "s3:x-amz-server-side-encryption-aws-kms-key-id": "${aws_kms_key.this.arn}"
+                    "s3:x-amz-server-side-encryption-aws-kms-key-id": "${data.aws_kms_alias.s3.arn}"
                 }
             }
+        },
+        {
+      	    "Effect": "Allow",
+            "Principal":{
+              "AWS": [
+                     %{for r in data.aws_iam_role.additional_roles}
+               	         "${r.arn}",
+              	     %{endfor}
+                     "${data.aws_iam_role.role.arn}"
+              ]
+      	    },
+            "Action": "s3:*",
+            "Resource": [
+                "${aws_s3_bucket.this.arn}",
+                "${aws_s3_bucket.this.arn}/*"
+             ]
         }
     ]
 }
@@ -58,11 +75,6 @@ resource "aws_s3_bucket" "this" {
   // change this to true to remove non-empty s3 bucket
   force_destroy = var.force_removal
 
-  // We explicitly prevent destruction using terraform. Remove this only if you really know what you're doing.
-  //lifecycle {
-  //  prevent_destroy = true
-  //}
-
   tags = {
     Name = "${var.prefix}-remote-state-${var.region}-${var.environment}"
     Env  = var.environment
@@ -74,7 +86,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.this.arn
+      kms_master_key_id = data.aws_kms_alias.s3.arn
       sse_algorithm     = "aws:kms"
     }
   }
@@ -83,6 +95,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
 resource "aws_s3_object" "this" {
   bucket     = aws_s3_bucket.this.id
   key        = "tfstate-aws/"
-  kms_key_id = aws_kms_key.this.arn
+  kms_key_id = data.aws_kms_alias.s3.arn
   depends_on = [aws_s3_bucket.this]
 }
