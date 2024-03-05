@@ -26,7 +26,7 @@ POLICY
   #}
 
   tags = {
-    Name = "${var.prefix}-state-lock-${var.region}-${var.environment}"
+    Name = "${var.prefix}-state-lock-${var.region}-${var.environment}-remote-state"
     Env  = var.environment
   }
 }
