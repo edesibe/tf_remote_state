@@ -26,12 +26,12 @@ POLICY
   #}
 
   tags = {
-    Name = "${var.prefix}-state-lock-${var.region}-${var.environment}-remote-state"
+    Name = "${var.prefix}-state-lock-${var.environment}-remote-state"
     Env  = var.environment
   }
 }
 
 resource "aws_kms_alias" "this" {
-  name          = "alias/${var.prefix}-${var.region}-${var.environment}-remote-state"
+  name          = "alias/${var.prefix}-${var.environment}-remote-state"
   target_key_id = aws_kms_key.this.key_id
 }
