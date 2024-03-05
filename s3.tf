@@ -59,9 +59,9 @@ resource "aws_s3_bucket" "this" {
   force_destroy = var.force_removal
 
   // We explicitly prevent destruction using terraform. Remove this only if you really know what you're doing.
-  lifecycle {
-    prevent_destroy = true
-  }
+  //lifecycle {
+  //  prevent_destroy = true
+  //}
 
   tags = {
     Name = "${var.prefix}-remote-state-${var.region}-${var.environment}"
