@@ -23,12 +23,12 @@ variable "force_removal" {
 }
 
 variable "additional_roles" {
-  default = []
+  default     = []
   description = "Additional roles that should be granted access to the tfstate"
-  type = list
+  type        = list(any)
 }
 
 variable "role" {
-  type = string
+  type        = string
   description = "AWS IAM role which will be allowd in s3 bucket policy"
 }

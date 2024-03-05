@@ -6,10 +6,31 @@ data "aws_kms_alias" "s3" {
 
 data "aws_iam_role" "additional_roles" {
   for_each = toset(var.additional_roles)
-  name = each.key
+  name     = each.key
 }
 
 # lookup the role arn
 data "aws_iam_role" "role" {
   name = var.role
+}
+
+data "aws_iam_policy_document" "state_force_ssl" {
+  statement {
+    sid     = "AllowSSLRequestsOnly"
+    actions = ["s3:*"]
+    effect  = "Deny"
+    resources = [
+      aws_s3_bucket.this.arn,
+      "${aws_s3_bucket.this.arn}/*"
+    ]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.caller.account_id}:root"]
+    }
+  }
 }

@@ -1,41 +1,7 @@
 resource "aws_s3_bucket_policy" "this" {
-  bucket = aws_s3_bucket.this.id
-  depends_on = [aws_s3_bucket.this]
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Deny",
-            "Principal": "*",
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${aws_s3_bucket.this.id}/*",
-            "Condition": {
-                "StringNotEqualsIfExists": {
-                    "s3:x-amz-server-side-encryption": "SSE-KMS",
-                    "s3:x-amz-server-side-encryption-aws-kms-key-id": "${data.aws_kms_alias.s3.arn}"
-                }
-            }
-        },
-        {
-      	    "Effect": "Allow",
-            "Principal":{
-              "AWS": [
-                     %{for r in data.aws_iam_role.additional_roles}
-               	         "${r.arn}",
-              	     %{endfor}
-                     "${data.aws_iam_role.role.arn}"
-              ]
-      	    },
-            "Action": "s3:*",
-            "Resource": [
-                "${aws_s3_bucket.this.arn}",
-                "${aws_s3_bucket.this.arn}/*"
-             ]
-        }
-    ]
-}
-POLICY
+  bucket     = aws_s3_bucket.this.id
+  policy     = data.aws_iam_policy_document.state_force_ssl.json
+  depends_on = [aws_s3_bucket_public_access_block.this]
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
@@ -63,10 +29,9 @@ resource "aws_s3_bucket_ownership_controls" "this" {
 }
 
 resource "aws_s3_bucket_acl" "this" {
+  bucket     = aws_s3_bucket.this.id
+  acl        = "private"
   depends_on = [aws_s3_bucket_ownership_controls.this]
-
-  bucket = aws_s3_bucket.this.id
-  acl    = "private"
 }
 
 resource "aws_s3_bucket" "this" {
