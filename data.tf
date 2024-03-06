@@ -18,6 +18,16 @@ data "aws_iam_policy_document" "state_force_ssl" {
       variable = "aws:SecureTransport"
       values   = ["false"]
     }
+    condition {
+      test     = "StringNotEqualsIfExists"
+      variable = "s3:x-amz-server-side-encryption"
+      values   = ["SSE-KMS"]
+    }
+    condition {
+      test     = "StringNotEqualsIfExists"
+      variable = "s3:x-amz-server-side-encryption-aws-kms-key-id"
+      values   = [data.aws_kms_alias.s3.arn]
+    }
     principals {
       type        = "AWS"
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
