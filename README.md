@@ -35,10 +35,10 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_environment"></a> [environment](#input\_environment) | The name of our environment, i.e. development | `string` | `"development"` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | The name of our environment, i.e. development | `string` | n/a | yes |
 | <a name="input_force_removal"></a> [force\_removal](#input\_force\_removal) | Forcing removal of a non-empty S3 bucket | `string` | `"false"` | no |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | The name of our org, i.e. edesibe.com | `string` | `"edesibe"` | no |
-| <a name="input_region"></a> [region](#input\_region) | The AWS region | `string` | `"ca-central-1"` | no |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | The name of our org, i.e. edesibe.com | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | The AWS region | `string` | n/a | yes |
 
 ## Outputs
 
