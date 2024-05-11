@@ -8,5 +8,10 @@ pkgs.mkShellNoCC {
     terrascan
     terraform-docs
     terragrunt
+    checkov
+    trivy
+    jq
+    tflint
+    tfupdate
   ];
 }
