@@ -1,3 +1,19 @@
+# AWS remote_state module for Terraform
+A lightweight remote_state module for Terraform.
+
+## Usage
+```
+module "remote_state" {
+  source        = "git@github.com:edesibe/tf_remote_state"
+  region        = "eu-central-1"
+  prefix        = "edesibecom"
+  environment   = "dev"
+  force_removal = "false"
+}
+```
+See `variables.tf` for additional configurable variables.
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -46,3 +62,4 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_s3_bucket_id"></a> [s3\_bucket\_id](#output\_s3\_bucket\_id) | Bucket ID |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
