@@ -28,21 +28,21 @@ func TestTerraformAwsS3Example(t *testing.T) {
 	// Pick a random AWS region to test in. This helps ensure your code works in all regions.
 	awsRegion := "us-west-1"
 
-  // Expect that s3 bucket has versioning enabled
+	// Expect that s3 bucket has versioning enabled
 	expectedStatusVersioning := "Enabled"
 
-  // Expected ownership
-  expectedObjectOwnership := "BucketOwnerPreferred"
+	// Expected ownership
+	expectedObjectOwnership := "BucketOwnerPreferred"
 
-  // Expected SSE Algorithm
-  expectedStatusEncriptionSSEAlgorithm := "aws:kms"
+	// Expected SSE Algorithm
+	expectedStatusEncriptionSSEAlgorithm := "aws:kms"
 
-  // Expect that s3 bucket's public access block configuration is blocked
-  expectedPublicAccessBlockConfiguration := &s3.PublicAccessBlockConfiguration{
-			BlockPublicAcls:       awsSDK.Bool(true),
-			BlockPublicPolicy:     awsSDK.Bool(true),
-			IgnorePublicAcls:      awsSDK.Bool(true),
-			RestrictPublicBuckets: awsSDK.Bool(true),
+	// Expect that s3 bucket's public access block configuration is blocked
+	expectedPublicAccessBlockConfiguration := &s3.PublicAccessBlockConfiguration{
+		BlockPublicAcls:       awsSDK.Bool(true),
+		BlockPublicPolicy:     awsSDK.Bool(true),
+		IgnorePublicAcls:      awsSDK.Bool(true),
+		RestrictPublicBuckets: awsSDK.Bool(true),
 	}
 
 	terraformOptions := &terraform.Options{
@@ -79,30 +79,30 @@ func TestTerraformAwsS3Example(t *testing.T) {
 
 	// Verify BucketOwnerPreffered ownership is set
 	s3Client, err := aws.NewS3ClientE(t, awsRegion)
-  require.NoError(t, err)
+	require.NoError(t, err)
 
 	actualStatusOwnership, err := s3Client.GetBucketOwnershipControls(&s3.GetBucketOwnershipControlsInput{Bucket: &bucketID})
 	if assert.NoError(t, err) {
-    assert.Equal(t, expectedObjectOwnership, awsSDK.StringValue(actualStatusOwnership.OwnershipControls.Rules[0].ObjectOwnership))
-  }
+		assert.Equal(t, expectedObjectOwnership, awsSDK.StringValue(actualStatusOwnership.OwnershipControls.Rules[0].ObjectOwnership))
+	}
 
 	// Verify public_access_block is true
 	acutalStatusPublicAccessBlock, err := s3Client.GetPublicAccessBlock(&s3.GetPublicAccessBlockInput{Bucket: &bucketID})
 	if assert.NoError(t, err) {
-    assert.Equal(t, expectedPublicAccessBlockConfiguration, acutalStatusPublicAccessBlock.PublicAccessBlockConfiguration) 
-  }
+		assert.Equal(t, expectedPublicAccessBlockConfiguration, acutalStatusPublicAccessBlock.PublicAccessBlockConfiguration)
+	}
 
 	// Verify server_side_encryption is aws:kms
 	acutalStatusEncription, err := s3Client.GetBucketEncryption(&s3.GetBucketEncryptionInput{Bucket: &bucketID})
 	if assert.NoError(t, err) {
-    expectedStatusEncriptionKMSMasterKeyID := fmt.Sprintf("arn:aws:kms:%s:%s:alias/aws/s3", awsRegion, accountID)
-	  assert.Equal(t, expectedStatusEncriptionKMSMasterKeyID, awsSDK.StringValue(acutalStatusEncription.ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault.KMSMasterKeyID))
-	  assert.Equal(t, expectedStatusEncriptionSSEAlgorithm, awsSDK.StringValue(acutalStatusEncription.ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault.SSEAlgorithm))
-  }
+		expectedStatusEncriptionKMSMasterKeyID := fmt.Sprintf("arn:aws:kms:%s:%s:alias/aws/s3", awsRegion, accountID)
+		assert.Equal(t, expectedStatusEncriptionKMSMasterKeyID, awsSDK.StringValue(acutalStatusEncription.ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault.KMSMasterKeyID))
+		assert.Equal(t, expectedStatusEncriptionSSEAlgorithm, awsSDK.StringValue(acutalStatusEncription.ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault.SSEAlgorithm))
+	}
 
 	// Verify that our Bucket has a policy attached
 	actualStatusPolicy, err := aws.GetS3BucketPolicyE(t, awsRegion, bucketID)
-  if assert.NoError(t, err) {
-	  assert.JSONEq(t, s3Policy, actualStatusPolicy)
-  }
+	if assert.NoError(t, err) {
+		assert.JSONEq(t, s3Policy, actualStatusPolicy)
+	}
 }
