@@ -1,31 +1,15 @@
-# AWS remote_state module for Terraform
-A lightweight remote_state module for Terraform.
-
-## Usage
-```
-module "remote_state" {
-  source        = "git@github.com:edesibe/tf_remote_state"
-  region        = "eu-central-1"
-  prefix        = "edesibecom"
-  environment   = "dev"
-  force_removal = "false"
-}
-```
-See `variables.tf` for additional configurable variables.
-
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.49.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.59.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.49.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.59.0 |
 
 ## Modules
 
@@ -35,18 +19,18 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_dynamodb_table.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/dynamodb_table) | resource |
-| [aws_s3_bucket.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket_acl.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_bucket_acl) | resource |
-| [aws_s3_bucket_ownership_controls.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_bucket_ownership_controls) | resource |
-| [aws_s3_bucket_policy.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_bucket_policy) | resource |
-| [aws_s3_bucket_public_access_block.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_bucket_public_access_block) | resource |
-| [aws_s3_bucket_server_side_encryption_configuration.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
-| [aws_s3_bucket_versioning.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_bucket_versioning) | resource |
-| [aws_s3_object.this](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/resources/s3_object) | resource |
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/data-sources/caller_identity) | data source |
-| [aws_iam_policy_document.state_force_ssl](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/data-sources/iam_policy_document) | data source |
-| [aws_kms_alias.s3](https://registry.terraform.io/providers/hashicorp/aws/5.49.0/docs/data-sources/kms_alias) | data source |
+| [aws_dynamodb_table.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/dynamodb_table) | resource |
+| [aws_s3_bucket.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket_acl.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_bucket_acl) | resource |
+| [aws_s3_bucket_ownership_controls.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_bucket_ownership_controls) | resource |
+| [aws_s3_bucket_policy.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_bucket_policy) | resource |
+| [aws_s3_bucket_public_access_block.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_bucket_public_access_block) | resource |
+| [aws_s3_bucket_server_side_encryption_configuration.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_s3_bucket_versioning.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_bucket_versioning) | resource |
+| [aws_s3_object.this](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/resources/s3_object) | resource |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.state_force_ssl](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/data-sources/iam_policy_document) | data source |
+| [aws_kms_alias.s3](https://registry.terraform.io/providers/hashicorp/aws/5.59.0/docs/data-sources/kms_alias) | data source |
 
 ## Inputs
 
@@ -61,5 +45,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_aws_account_id"></a> [aws\_account\_id](#output\_aws\_account\_id) | AWS account ID |
 | <a name="output_s3_bucket_id"></a> [s3\_bucket\_id](#output\_s3\_bucket\_id) | Bucket ID |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+| <a name="output_s3_policy"></a> [s3\_policy](#output\_s3\_policy) | IAM policy attached to the S3 bucket |

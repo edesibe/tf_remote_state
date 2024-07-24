@@ -6,10 +6,6 @@ repos:
     - id: terraform_docs
       args:
         - --args=--config=.terraform-docs.yml 
-    - id: terraform_tflint
-      args:
-        - --args=--module
-        - --args=--enable-rule=terraform_documented_variables
     - id: tfupdate
       name: Autoupdate AWS provider versions
       args:

@@ -4,6 +4,12 @@
 
 provider "aws" {
   region = var.region
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.59.0"
+    }
+  }
 }
 
 # ---------
@@ -50,6 +56,6 @@ module "remote_state" {
 # OUTPUT
 # ------
 
-output "s3_bucket_id" {
-  value = module.remote_state.s3_bucket_id
-}
+output "s3_bucket_id" { value = module.remote_state.s3_bucket_id }
+output "aws_account_id" { value = module.remote_state.aws_account_id }
+output "s3_policy" { value = module.remote_state.s3_policy }
